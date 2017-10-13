@@ -32,7 +32,8 @@ fun main(args: Array<String>) {
             last_response = response
     )
 
-    //Only difference, map them to ProtoBuf objects
+    //Only difference from standard code, map plain objects to ProtoBuf objects
+    //before sending them as byte arrays over the network
     val protoCase = RubiconProto.Case.newBuilder()
             .setId(case.id)
             .setCreatedAt(case.created_at)
@@ -45,7 +46,7 @@ fun main(args: Array<String>) {
             )
             .build()
 
-    //Send them over the network as a byte array
+    //Write the case to the "socket"
     val byteStream = ByteArrayOutputStream()
     val output = CodedOutputStream.newInstance(byteStream)
     protoCase.writeTo(output)
