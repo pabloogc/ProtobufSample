@@ -1,5 +1,7 @@
 import com.google.protobuf.CodedOutputStream
 import com.rubiconmd.proto.RubiconProto
+import com.squareup.moshi.KotlinJsonAdapterFactory
+import com.squareup.moshi.Moshi
 import java.io.ByteArrayOutputStream
 
 data class Case(
@@ -61,6 +63,12 @@ fun main(args: Array<String>) {
                     body = parsedProtoCase.lastResponse.body
             )
     )
+
+    val moshi = Moshi.Builder().add(KotlinJsonAdapterFactory()).build()
+    val jsonBytes = moshi.adapter(Case::class.java).toJson(case).toByteArray()
+
+    println("ProtoBuf bytes: ${bytes.size}, Json bytes: ${jsonBytes.size}")
+    println("Size improvement: ${(100.0f * bytes.size / jsonBytes.size).toInt()}%")
 
     assert(parsedCase == case)
 }
