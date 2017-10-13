@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package com.rubiconmd;
+
+option java_package = "com.rubiconmd.proto";
+option java_outer_classname = "RubiconProto";
+
+message Response {
+    string id = 1;
+    string body = 2;
+}
+
+message Case {
+    string id = 1;
+    string created_at = 2;
+    string symptoms = 3;
+    Response last_response = 4;
+}
+
